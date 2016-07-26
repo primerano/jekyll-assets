@@ -3,7 +3,6 @@
 # Copyright: 2012 - 2016 - MIT License
 # Encoding: utf-8
 # ----------------------------------------------------------------------------
-
 require "rspec/helper"
 describe Jekyll::Assets::Liquid::Filters do
   before :each do
@@ -23,4 +22,14 @@ describe Jekyll::Assets::Liquid::Filters do
       eq 1
     )
   end
+
+  let :env do
+    Jekyll::Assets::Env.new(stub_jekyll_site("assets" => { "features" => { "liquid" => true }}))
+  end
+
+  it "has access to data files" do
+    expect(env.find_asset("liquid_filter.js").to_s).to eq(
+       "[{\"year\":\"2013\",\" value\":\" 23\"},{\"year\":\"2012\",\" value\":\" 29\"},{\"year\":\"2011\",\" value\":\" 28\"}]\n;\n"
+    )
+  end 
 end
